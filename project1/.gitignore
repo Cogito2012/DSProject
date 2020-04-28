@@ -1,0 +1,7 @@
+mazon-fine-food-reviews/*
+.class
+.project
+.classpath
+.settings/
+target/
+dependency-reduced-pom.xml
