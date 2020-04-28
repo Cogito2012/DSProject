@@ -1,0 +1,39 @@
+# This docker-compose file is used for running the client and server program
+# Referenced from the docker-compose file of course repository.
+
+version: '3.7'
+
+services:
+  # configure the server
+  myserver:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: project1:latest
+    container_name: myserver
+    working_dir: /project1
+#    networks:
+#      - subnet
+    ports:
+      - 8888:8888
+    command: java -cp target/cs_word_count-1.0-SNAPSHOT.jar edu.rit.cs.cs_word_count.Server 8888
+
+  myclient:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: project1:latest
+    container_name: myclient
+    depends_on:
+      - myserver
+    working_dir: /project1
+    network_mode: host
+#    networks:
+#      - subnet
+#    ports:
+#      - 8889:8889
+#    command: java -cp target/cs_word_count-1.0-SNAPSHOT.jar edu.rit.cs.cs_word_count.Client 172.18.0.23:8888 amazon-fine-food-reviews/Reviews.csv
+    command: java -cp target/cs_word_count-1.0-SNAPSHOT.jar edu.rit.cs.cs_word_count.Client localhost:8888 amazon-fine-food-reviews/Reviews.csv
+
+#networks:
+#  subnet:
